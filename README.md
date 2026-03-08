@@ -187,21 +187,33 @@ Improvement Score: 80/100
 | [FINAL_CHECKLIST.md](FINAL_CHECKLIST.md) | Final checklist before submission |
 | [NEXT_STEPS.md](NEXT_STEPS.md) | Detailed next steps |
 
-## 🚀 Deployment
+## 🚀 Deployment on Northflank H100 GPU
 
-### Northflank H100 GPU
+### Quick Deploy (5 minutes setup)
 
-The project is ready for deployment on Northflank with H100 GPU:
+1. **Login to Northflank**: https://northflank.com
+2. **Create new Service**:
+   - Source: GitHub → `muhammedehab35/CodeRefactor-Gym`
+   - Branch: `main`
+3. **Configure Build**:
+   - Build Type: Dockerfile
+   - Dockerfile Path: `Dockerfile.training`
+4. **Set Resources**:
+   - GPU: `NVIDIA H100` (1x)
+   - RAM: `32 GB`
+   - CPU: `8 cores`
+5. **Add Environment Variables**:
+   ```bash
+   MODEL_ID=Qwen/Qwen2.5-1.5B-Instruct
+   ENV_URL=https://mo35-code-refactor-gym.hf.space
+   NUM_EPOCHS=3
+   BATCH_SIZE=4
+   ```
+6. **Deploy** → Training starts automatically!
 
-1. **Read the guide**: [DEPLOY_NORTHFLANK_GUIDE.md](DEPLOY_NORTHFLANK_GUIDE.md)
-2. **Connect GitHub repo** to Northflank
-3. **Configure H100 GPU** and environment variables
-4. **Launch build** and training (~45-60 min)
+**📖 Detailed guide**: See [DEPLOY_NORTHFLANK_GUIDE.md](DEPLOY_NORTHFLANK_GUIDE.md)
 
-Provided configuration:
-- ✅ `Dockerfile.training`
-- ✅ `northflank.json`
-- ✅ Step-by-step guide
+**⏱️ Total time**: ~60 minutes (build: 15 min + training: 45 min)
 
 ## 📊 Expected Results
 
