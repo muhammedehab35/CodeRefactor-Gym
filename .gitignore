@@ -85,4 +85,5 @@ Dockerfile
 # Internal documentation and planning files
 NEXT_STEPS.md
 FINAL_CHECKLIST.md
+DEPLOY_NORTHFLANK_GUIDE.md
 *.pdf
