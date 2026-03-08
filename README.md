@@ -1,6 +1,6 @@
 # CodeRefactor Gym - OpenEnv Hackathon 2025
 
-> Un environnement d'apprentissage par renforcement qui enseigne aux LLMs à refactoriser du code legacy en code moderne et maintenable.
+> A reinforcement learning environment that teaches LLMs to refactor legacy code into modern and maintainable code.
 
 [![Environment](https://img.shields.io/badge/HuggingFace-Deployed-blue)](https://huggingface.co/spaces/mo35/code-refactor-gym)
 [![API](https://img.shields.io/badge/API-Live-green)](https://mo35-code-refactor-gym.hf.space)
@@ -8,50 +8,50 @@
 
 ---
 
-## 🎯 Qu'est-ce que CodeRefactor Gym?
+## 🎯 What is CodeRefactor Gym?
 
-**CodeRefactor Gym** est un environnement OpenEnv innovant qui apprend aux agents d'IA à:
-- ✅ Améliorer la qualité du code Python
-- ✅ Ajouter des type hints et docstrings
-- ✅ Éliminer les anti-patterns (globals, magic numbers)
-- ✅ Réduire la complexité cyclomatique
-- ✅ Transformer du code legacy en code maintenable
+**CodeRefactor Gym** is an innovative OpenEnv environment that teaches AI agents to:
+- ✅ Improve Python code quality
+- ✅ Add type hints and docstrings
+- ✅ Eliminate anti-patterns (globals, magic numbers)
+- ✅ Reduce cyclomatic complexity
+- ✅ Transform legacy code into maintainable code
 
-## 🏆 Résultats
+## 🏆 Results
 
-### Environnement Déployé
+### Deployed Environment
 
 - **HuggingFace Space**: https://huggingface.co/spaces/mo35/code-refactor-gym
 - **API Endpoint**: https://mo35-code-refactor-gym.hf.space
-- **Status**: ✅ En ligne et fonctionnel
+- **Status**: ✅ Online and functional
 
-### Tests Locaux
+### Local Tests
 
 ```
-Test avec bon refactoring:
+Test with good refactoring:
 ✓ Reward: +13.0
 ✓ Improvement Score: 80/100
-✓ Type hints ajoutés
-✓ Docstrings ajoutés
-✓ Magic numbers éliminés
+✓ Type hints added
+✓ Docstrings added
+✓ Magic numbers eliminated
 ```
 
 ## 🚀 Quick Start
 
-### Tester l'Environnement
+### Test the Environment
 
 ```python
 from openenv.client import Client
 from code_refactor_gym.models import CodeRefactorGymAction
 
-# Se connecter
+# Connect
 client = Client(base_url="https://mo35-code-refactor-gym.hf.space")
 
-# Obtenir du code legacy
+# Get legacy code
 obs = client.reset()
-print(f"Code à refactoriser:\n{obs.legacy_code}")
+print(f"Code to refactor:\n{obs.legacy_code}")
 
-# Soumettre refactoring
+# Submit refactoring
 action = CodeRefactorGymAction(
     refactored_code="""
 from typing import List
@@ -68,45 +68,45 @@ print(f"Reward: {result.reward}")
 print(f"Improvement: {result.improvement_score}/100")
 ```
 
-### Entraîner un Agent
+### Train an Agent
 
 ```bash
 # Installation
 pip install -r requirements-training.txt
 
-# Entraînement sur GPU H100 (Northflank)
-# Voir: DEPLOY_NORTHFLANK_GUIDE.md
+# Training on H100 GPU (Northflank)
+# See: DEPLOY_NORTHFLANK_GUIDE.md
 python train_agent.py \
   --model-id Qwen/Qwen2.5-1.5B-Instruct \
   --env-url https://mo35-code-refactor-gym.hf.space \
   --num-epochs 3
 ```
 
-## 📁 Structure du Projet
+## 📁 Project Structure
 
 ```
 CodeRefactor-Gym/
-├── code_refactor_gym/              # Environnement OpenEnv
+├── code_refactor_gym/              # OpenEnv Environment
 │   ├── models.py                   # Actions, Observations, State
 │   ├── server/
-│   │   ├── app.py                  # API FastAPI
-│   │   └── code_refactor_gym_environment.py  # Logique RL
-│   └── test_env.py                 # Tests locaux
+│   │   ├── app.py                  # FastAPI API
+│   │   └── code_refactor_gym_environment.py  # RL Logic
+│   └── test_env.py                 # Local tests
 │
-├── train_agent.py                  # Script entraînement GRPO/TRL
-├── Dockerfile.training             # Docker Northflank H100
-├── requirements-training.txt       # Dépendances
+├── train_agent.py                  # GRPO/TRL training script
+├── Dockerfile.training             # Northflank H100 Docker
+├── requirements-training.txt       # Dependencies
 │
 └── Documentation/
-    ├── README_HACKATHON.md         # Doc complète
-    ├── DEPLOY_NORTHFLANK_GUIDE.md  # Guide déploiement
-    ├── FINAL_CHECKLIST.md          # Checklist finale
-    └── NEXT_STEPS.md               # Prochaines étapes
+    ├── README_HACKATHON.md         # Complete documentation
+    ├── DEPLOY_NORTHFLANK_GUIDE.md  # Deployment guide
+    ├── FINAL_CHECKLIST.md          # Final checklist
+    └── NEXT_STEPS.md               # Next steps
 ```
 
-## 💡 Comment ça marche?
+## 💡 How does it work?
 
-### 1. L'environnement fournit du code legacy
+### 1. The environment provides legacy code
 
 ```python
 def f(x, y):
@@ -117,9 +117,9 @@ def f(x, y):
     return result
 ```
 
-**Problèmes**: Mauvais nommage, pas de type hints, boucle inefficace
+**Problems**: Bad naming, no type hints, inefficient loop
 
-### 2. L'agent soumet du code refactorisé
+### 2. The agent submits refactored code
 
 ```python
 from typing import List
@@ -141,10 +141,10 @@ def filter_values_above_threshold(
     return [value for value in values if value > threshold]
 ```
 
-### 3. L'environnement évalue et récompense
+### 3. The environment evaluates and rewards
 
 ```
-Métriques calculées:
+Calculated metrics:
 ✓ Type hints: Added (+15 points)
 ✓ Docstring: Added (+10 points)
 ✓ Code conciseness: Improved (+5 points)
@@ -155,85 +155,83 @@ Total Reward: +13.0
 Improvement Score: 80/100
 ```
 
-## 🎮 Système de Récompenses
+## 🎮 Reward System
 
-| Amélioration | Points |
+| Improvement | Points |
 |-------------|---------|
-| Syntaxe invalide | -10 |
-| Type hints ajoutés | +15 |
-| Docstrings ajoutés | +10 |
-| Globals éliminés | +15 |
-| Magic numbers fixés | +10 |
-| Complexité réduite | +10 |
-| Bonus amélioration >70% | +5 |
+| Invalid syntax | -10 |
+| Type hints added | +15 |
+| Docstrings added | +10 |
+| Globals eliminated | +15 |
+| Magic numbers fixed | +10 |
+| Complexity reduced | +10 |
+| Improvement bonus >70% | +5 |
 
 **Maximum possible**: ~+18 points
 
 ## 🛠️ Technologies
 
-- **OpenEnv** - Framework environnement RL
+- **OpenEnv** - RL environment framework
 - **TRL** - Transformer Reinforcement Learning (GRPO)
-- **Unsloth** - Optimisation 2x plus rapide
-- **vLLM** - Inférence rapide
+- **Unsloth** - 2x faster optimization
+- **vLLM** - Fast inference
 - **FastAPI** - API server
-- **HuggingFace Spaces** - Hébergement
-- **Northflank + CoreWeave** - GPU H100
+- **HuggingFace Spaces** - Hosting
+- **Northflank + CoreWeave** - H100 GPU
 
 ## 📚 Documentation
 
 | Document | Description |
 |----------|-------------|
-| [README_HACKATHON.md](README_HACKATHON.md) | Documentation complète du projet |
-| [DEPLOY_NORTHFLANK_GUIDE.md](DEPLOY_NORTHFLANK_GUIDE.md) | Guide déploiement GPU H100 étape par étape |
-| [FINAL_CHECKLIST.md](FINAL_CHECKLIST.md) | Checklist finale avant soumission |
-| [NEXT_STEPS.md](NEXT_STEPS.md) | Prochaines étapes détaillées |
-| [SUMMARY.txt](SUMMARY.txt) | Récapitulatif rapide |
+| [DEPLOY_NORTHFLANK_GUIDE.md](DEPLOY_NORTHFLANK_GUIDE.md) | Step-by-step H100 GPU deployment guide |
+| [FINAL_CHECKLIST.md](FINAL_CHECKLIST.md) | Final checklist before submission |
+| [NEXT_STEPS.md](NEXT_STEPS.md) | Detailed next steps |
 
-## 🚀 Déploiement
+## 🚀 Deployment
 
 ### Northflank H100 GPU
 
-Le projet est prêt pour déploiement sur Northflank avec GPU H100:
+The project is ready for deployment on Northflank with H100 GPU:
 
-1. **Lire le guide**: [DEPLOY_NORTHFLANK_GUIDE.md](DEPLOY_NORTHFLANK_GUIDE.md)
-2. **Connecter le repo GitHub** sur Northflank
-3. **Configurer GPU H100** et variables d'environnement
-4. **Lancer le build** et l'entraînement (~45-60 min)
+1. **Read the guide**: [DEPLOY_NORTHFLANK_GUIDE.md](DEPLOY_NORTHFLANK_GUIDE.md)
+2. **Connect GitHub repo** to Northflank
+3. **Configure H100 GPU** and environment variables
+4. **Launch build** and training (~45-60 min)
 
-Configuration fournie:
+Provided configuration:
 - ✅ `Dockerfile.training`
 - ✅ `northflank.json`
-- ✅ Guide étape par étape
+- ✅ Step-by-step guide
 
-## 📊 Résultats Attendus
+## 📊 Expected Results
 
-Avec GPU H100 (3 epochs):
+With H100 GPU (3 epochs):
 
-| Métrique | Epoch 1 | Epoch 2 | Epoch 3 |
+| Metric | Epoch 1 | Epoch 2 | Epoch 3 |
 |----------|---------|---------|---------|
-| Reward moyen | 2-4 | 4-6 | 8-12 |
+| Average reward | 2-4 | 4-6 | 8-12 |
 | Improvement | 30-40% | 50-60% | 70-80% |
 | Syntax valid | >95% | >97% | >98% |
 | Type hints | >70% | >80% | >90% |
 
-## 🎯 Pourquoi c'est innovant?
+## 🎯 Why is it innovative?
 
-1. **Premier environnement RL pour refactoring de code**
-   - Aucun environnement similaire n'existe dans OpenEnv
+1. **First RL environment for code refactoring**
+   - No similar environment exists in OpenEnv
 
-2. **Problème réel et mesurable**
-   - Le refactoring est un défi quotidien pour les développeurs
-   - Métriques objectives (complexité, type hints, etc.)
+2. **Real and measurable problem**
+   - Refactoring is a daily challenge for developers
+   - Objective metrics (complexity, type hints, etc.)
 
-3. **Apprentissage progressif**
-   - De simples améliorations aux refactorings complexes
-   - Feedback immédiat via rewards
+3. **Progressive learning**
+   - From simple improvements to complex refactorings
+   - Immediate feedback via rewards
 
-4. **Applicable immédiatement**
-   - Peut être utilisé sur vrai code legacy
-   - Modèle entraîné déployable en production
+4. **Immediately applicable**
+   - Can be used on real legacy code
+   - Trained model deployable in production
 
-## 📞 Contact & Liens
+## 📞 Contact & Links
 
 - **Participant**: mo35
 - **HuggingFace**: [@mo35](https://huggingface.co/mo35)
@@ -249,8 +247,8 @@ BSD-style license (see OpenEnv project)
 
 <div align="center">
 
-**Fait avec ❤️ pour l'OpenEnv Hackathon 2025**
+**Made with ❤️ for OpenEnv Hackathon 2025**
 
-[📖 Documentation](README_HACKATHON.md) • [🚀 Déployer](DEPLOY_NORTHFLANK_GUIDE.md) • [✅ Checklist](FINAL_CHECKLIST.md)
+[🚀 Deploy](DEPLOY_NORTHFLANK_GUIDE.md) • [✅ Checklist](FINAL_CHECKLIST.md) • [📋 Next Steps](NEXT_STEPS.md)
 
 </div>

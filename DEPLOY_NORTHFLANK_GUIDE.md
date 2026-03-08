@@ -1,24 +1,24 @@
-# Guide de Déploiement Northflank - Étape par Étape
+# Northflank Deployment Guide - Step by Step
 
-## ✅ Prérequis
+## ✅ Prerequisites
 
-1. ✅ Environnement déployé: https://mo35-code-refactor-gym.hf.space
-2. ✅ Code prêt à être poussé sur GitHub
-3. ⏳ Compte Northflank avec accès GPU H100
-4. ⏳ HuggingFace token (pour upload automatique du modèle)
+1. ✅ Environment deployed: https://mo35-code-refactor-gym.hf.space
+2. ✅ Code ready to be pushed to GitHub
+3. ⏳ Northflank account with H100 GPU access
+4. ⏳ HuggingFace token (for automatic model upload)
 
 ---
 
-## ÉTAPE 1: Pousser le code sur GitHub
+## STEP 1: Push Code to GitHub
 
-### Option A: Via le script automatique
+### Option A: Via automatic script
 
 ```bash
-# Double-cliquer sur:
+# Double-click on:
 PUSH_TO_GITHUB.bat
 ```
 
-### Option B: Manuellement
+### Option B: Manually
 
 ```bash
 cd "D:\Northflank + openv"
@@ -31,27 +31,27 @@ git branch -M main
 git push -u origin main --force
 ```
 
-**✅ Vérification**: Visite https://github.com/muhammedehab35/CodeRefactor-Gym
+**✅ Verification**: Visit https://github.com/muhammedehab35/CodeRefactor-Gym
 
 ---
 
-## ÉTAPE 2: Se connecter à Northflank
+## STEP 2: Connect to Northflank
 
-1. Va sur https://northflank.com
-2. Connecte-toi avec ton compte hackathon
-3. Tu devrais voir un dashboard
+1. Go to https://northflank.com
+2. Login with your hackathon account
+3. You should see a dashboard
 
 ---
 
-## ÉTAPE 3: Créer un nouveau Service/Job
+## STEP 3: Create a New Service/Job
 
-### 3.1 Créer le Service
+### 3.1 Create the Service
 
-1. Clique sur **"Create Service"** ou **"Create Job"**
-2. Sélectionne **"From Git Repository"**
-3. Connecte ton compte GitHub si pas déjà fait
+1. Click on **"Create Service"** or **"Create Job"**
+2. Select **"From Git Repository"**
+3. Connect your GitHub account if not already done
 
-### 3.2 Configurer le Repository
+### 3.2 Configure the Repository
 
 - **Repository**: `muhammedehab35/CodeRefactor-Gym`
 - **Branch**: `main`
@@ -59,18 +59,18 @@ git push -u origin main --force
 - **Dockerfile Path**: `Dockerfile.training`
 - **Build Context**: `/` (root)
 
-### 3.3 Nommer le Service
+### 3.3 Name the Service
 
 - **Service Name**: `code-refactor-training`
 - **Description**: `CodeRefactor Gym GRPO Training with H100`
 
 ---
 
-## ÉTAPE 4: Configurer les Ressources GPU
+## STEP 4: Configure GPU Resources
 
-### 4.1 Sélectionner le GPU
+### 4.1 Select the GPU
 
-Dans la section **"Resources"**:
+In the **"Resources"** section:
 
 - **GPU Type**: `NVIDIA H100` (via CoreWeave)
 - **GPU Count**: `1`
@@ -78,17 +78,17 @@ Dans la section **"Resources"**:
 - **Memory**: `32 GB` (32Gi)
 - **Storage**: `50 GB`
 
-### 4.2 Vérifier la disponibilité
+### 4.2 Check Availability
 
-⚠️ **Important**: Il y a 120 GPUs H100 total, 1 par équipe
-- Si "H100" n'apparaît pas, contacte le support hackathon
-- Vérifie que ton compte a l'accès au crédit GPU
+⚠️ **Important**: There are 120 H100 GPUs total, 1 per team
+- If "H100" doesn't appear, contact hackathon support
+- Verify that your account has GPU credit access
 
 ---
 
-## ÉTAPE 5: Variables d'Environnement
+## STEP 5: Environment Variables
 
-Ajoute ces variables dans **"Environment Variables"**:
+Add these variables in **"Environment Variables"**:
 
 ```
 MODEL_ID=Qwen/Qwen2.5-1.5B-Instruct
@@ -103,30 +103,30 @@ USE_VLLM=true
 PYTHONUNBUFFERED=1
 ```
 
-### 5.2 (Optionnel) HuggingFace Token
+### 5.2 (Optional) HuggingFace Token
 
-Pour upload automatique du modèle entraîné:
+For automatic upload of trained model:
 
 ```
 HF_TOKEN=your_huggingface_token_here
 ```
 
-### 5.3 (Optionnel) Weights & Biases
+### 5.3 (Optional) Weights & Biases
 
-Pour monitoring avancé:
+For advanced monitoring:
 
 ```
-WANDB_API_KEY=ton_wandb_key
+WANDB_API_KEY=your_wandb_key
 WANDB_PROJECT=code-refactor-gym
 ```
 
 ---
 
-## ÉTAPE 6: Configuration Avancée (Optionnel)
+## STEP 6: Advanced Configuration (Optional)
 
-### 6.1 Volumes Persistants
+### 6.1 Persistent Volumes
 
-Pour sauvegarder le modèle:
+To save the model:
 
 - **Volume Name**: `model-output`
 - **Mount Path**: `/app/output`
@@ -134,7 +134,7 @@ Pour sauvegarder le modèle:
 
 ### 6.2 Ports
 
-Si tu veux exposer TensorBoard:
+If you want to expose TensorBoard:
 
 - **Port Name**: `tensorboard`
 - **Port**: `6006`
@@ -142,20 +142,20 @@ Si tu veux exposer TensorBoard:
 
 ---
 
-## ÉTAPE 7: Lancer le Build & Déploiement
+## STEP 7: Launch Build & Deployment
 
-1. Clique sur **"Create Service"** en bas
-2. Northflank va:
-   - Clone ton repo GitHub
-   - Build l'image Docker (Dockerfile.training)
+1. Click **"Create Service"** at the bottom
+2. Northflank will:
+   - Clone your GitHub repo
+   - Build Docker image (Dockerfile.training)
    - Pull CUDA base image
    - Install dependencies
-   - ⏱️ Cela prend ~10-15 minutes
+   - ⏱️ This takes ~10-15 minutes
 
-### 7.1 Surveiller le Build
+### 7.1 Monitor the Build
 
-- Va dans l'onglet **"Builds"**
-- Tu verras les logs en temps réel:
+- Go to **"Builds"** tab
+- You'll see real-time logs:
   ```
   ✓ Pulling base image nvidia/cuda:12.1.0
   ✓ Installing Python 3.11
@@ -166,17 +166,17 @@ Si tu veux exposer TensorBoard:
 
 ---
 
-## ÉTAPE 8: Lancer l'Entraînement
+## STEP 8: Launch Training
 
-Une fois le build terminé:
+Once the build is complete:
 
-1. Le container démarre automatiquement
-2. Le script `train_agent.py` s'exécute
-3. L'entraînement commence
+1. Container starts automatically
+2. `train_agent.py` script executes
+3. Training begins
 
-### 8.1 Voir les Logs
+### 8.1 View Logs
 
-Va dans **"Logs"** pour voir:
+Go to **"Logs"** to see:
 
 ```
 ========================================
@@ -208,25 +208,25 @@ Epoch 1/3:
 
 ---
 
-## ÉTAPE 9: Monitoring
+## STEP 9: Monitoring
 
-### 9.1 Métriques Northflank
+### 9.1 Northflank Metrics
 
-Dans le dashboard Northflank:
-- **GPU Utilization**: Doit être ~80-95%
+In the Northflank dashboard:
+- **GPU Utilization**: Should be ~80-95%
 - **Memory Usage**: ~25-28 GB / 32 GB
 - **CPU Usage**: ~60-70%
 
-### 9.2 Logs de Training
+### 9.2 Training Logs
 
-Surveille ces métriques dans les logs:
-- **Reward moyen**: Doit augmenter (2→4→6→8→10+)
-- **Improvement score**: Doit augmenter (30%→50%→70%+)
-- **Syntax valid rate**: Doit être >95%
+Monitor these metrics in the logs:
+- **Average reward**: Should increase (2→4→6→8→10+)
+- **Improvement score**: Should increase (30%→50%→70%+)
+- **Syntax valid rate**: Should be >95%
 
-### 9.3 Durée Estimée
+### 9.3 Estimated Duration
 
-Avec H100 + vLLM:
+With H100 + vLLM:
 - **Epoch 1**: ~15-20 minutes
 - **Epoch 2**: ~15-20 minutes
 - **Epoch 3**: ~15-20 minutes
@@ -234,20 +234,20 @@ Avec H100 + vLLM:
 
 ---
 
-## ÉTAPE 10: Récupérer le Modèle
+## STEP 10: Retrieve the Model
 
-### Option A: Volume Persistant
+### Option A: Persistent Volume
 
-Si tu as configuré un volume:
-1. Va dans **"Files"** > **"Volumes"**
-2. Télécharge `/app/output/code-refactor-agent/`
+If you configured a volume:
+1. Go to **"Files"** > **"Volumes"**
+2. Download `/app/output/code-refactor-agent/`
 
-### Option B: HuggingFace Hub (Recommandé)
+### Option B: HuggingFace Hub (Recommended)
 
-Si HF_TOKEN configuré, le modèle est uploadé automatiquement:
+If HF_TOKEN configured, model is uploaded automatically:
 - URL: https://huggingface.co/mo35/code-refactor-agent
 
-Vérifie avec:
+Verify with:
 ```python
 from transformers import AutoModelForCausalLM
 model = AutoModelForCausalLM.from_pretrained("mo35/code-refactor-agent")
@@ -255,7 +255,7 @@ model = AutoModelForCausalLM.from_pretrained("mo35/code-refactor-agent")
 
 ### Option C: Logs
 
-Le chemin du modèle est affiché dans les logs finaux:
+The model path is displayed in the final logs:
 ```
 Training complete!
 Model saved to: /app/output/code-refactor-agent
@@ -263,23 +263,23 @@ Model saved to: /app/output/code-refactor-agent
 
 ---
 
-## ÉTAPE 11: Test du Modèle Entraîné
+## STEP 11: Test the Trained Model
 
-Après récupération du modèle:
+After retrieving the model:
 
 ```python
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from openenv.client import Client
 
-# Charger le modèle
+# Load the model
 model = AutoModelForCausalLM.from_pretrained("mo35/code-refactor-agent")
 tokenizer = AutoTokenizer.from_pretrained("mo35/code-refactor-agent")
 
-# Connecter à l'environnement
+# Connect to environment
 client = Client(base_url="https://mo35-code-refactor-gym.hf.space")
 obs = client.reset()
 
-# Tester le refactoring
+# Test refactoring
 legacy_code = obs.legacy_code
 prompt = f"Refactor this code:\n{legacy_code}\n\nRefactored version:"
 
@@ -292,7 +292,7 @@ print(legacy_code)
 print("\nRefactored Code:")
 print(refactored)
 
-# Évaluer dans l'environnement
+# Evaluate in environment
 from code_refactor_gym.models import CodeRefactorGymAction
 action = CodeRefactorGymAction(
     refactored_code=refactored.split("Refactored version:")[-1].strip(),
@@ -305,78 +305,78 @@ print(f"Improvement: {result.improvement_score}/100")
 
 ---
 
-## 🚨 Dépannage
+## 🚨 Troubleshooting
 
-### Erreur: "No GPU available"
+### Error: "No GPU available"
 
-**Solution**: Vérifie avec le support hackathon que ton compte a accès au GPU H100
+**Solution**: Check with hackathon support that your account has H100 GPU access
 
-### Erreur: "Out of memory"
+### Error: "Out of memory"
 
 **Solutions**:
 ```bash
-# Réduire batch size
+# Reduce batch size
 BATCH_SIZE=2
 NUM_GENERATIONS=4
 
-# Ou activer Unsloth dans train_agent.py
+# Or activate Unsloth in train_agent.py
 --use-unsloth
 ```
 
-### Erreur: "Cannot connect to environment"
+### Error: "Cannot connect to environment"
 
-**Solution**: Vérifie que l'environnement est accessible:
+**Solution**: Verify that the environment is accessible:
 ```bash
 curl https://mo35-code-refactor-gym.hf.space/health
-# Doit retourner: {"status":"healthy"}
+# Should return: {"status":"healthy"}
 ```
 
-### Build échoue
+### Build fails
 
-**Solution**: Regarde les logs de build dans Northflank > Builds > Logs
+**Solution**: Check build logs in Northflank > Builds > Logs
 
 ---
 
-## 📊 Résultats Attendus
+## 📊 Expected Results
 
-### Métriques de Performance
+### Performance Metrics
 
-Avec H100:
+With H100:
 - **Throughput**: ~100-150 tokens/sec
 - **GPU Memory**: ~25-30 GB / 80 GB
 - **Training Speed**: ~2-3 min/epoch
 
-### Métriques de Qualité
+### Quality Metrics
 
-Après 3 epochs:
-- **Reward moyen**: 8-12
+After 3 epochs:
+- **Average reward**: 8-12
 - **Improvement score**: 60-80%
 - **Syntax valid**: >98%
-- **Type hints ajoutés**: >85%
-- **Docstrings ajoutés**: >75%
+- **Type hints added**: >85%
+- **Docstrings added**: >75%
 
 ---
 
-## ✅ Checklist Finale
+## ✅ Final Checklist
 
-- [ ] Code poussé sur GitHub
-- [ ] Service Northflank créé
-- [ ] GPU H100 configuré
-- [ ] Variables d'environnement set
-- [ ] Build réussi
-- [ ] Training lancé
-- [ ] Logs surveillés
-- [ ] Modèle récupéré
-- [ ] Modèle testé
-- [ ] Résultats documentés
+- [ ] Code pushed to GitHub
+- [ ] Northflank service created
+- [ ] H100 GPU configured
+- [ ] Environment variables set
+- [ ] Build successful
+- [ ] Training launched
+- [ ] Logs monitored
+- [ ] Model retrieved
+- [ ] Model tested
+- [ ] Results documented
 
 ---
 
-## 🎯 Prochaine Étape
+## 🎯 Next Step
 
-Après l'entraînement réussi:
-1. Documente tes résultats
-2. Crée des exemples de refactoring
-3. Prépare ta soumission au hackathon!
+After successful training:
+1. Document your results
+2. Create refactoring examples
+3. Prepare your hackathon submission!
 
-**Bon courage! 🚀**
+**Good luck! 🚀**
