@@ -81,3 +81,8 @@ htmlcov/
 # Deployment
 Dockerfile
 .spacesconfig
+
+# Internal documentation and planning files
+NEXT_STEPS.md
+FINAL_CHECKLIST.md
+*.pdf
