@@ -1,0 +1,53 @@
+# Dockerfile for training CodeRefactor Gym agent on Northflank H100 GPU
+FROM nvidia/cuda:12.1.0-cudnn8-devel-ubuntu22.04
+
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
+ENV CUDA_HOME=/usr/local/cuda
+
+# Install Python and system dependencies
+RUN apt-get update && apt-get install -y \
+    python3.11 \
+    python3.11-dev \
+    python3-pip \
+    git \
+    curl \
+    wget \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create symlinks for python
+RUN ln -sf /usr/bin/python3.11 /usr/bin/python && \
+    ln -sf /usr/bin/python3.11 /usr/bin/python3
+
+# Upgrade pip
+RUN python -m pip install --upgrade pip setuptools wheel
+
+# Set working directory
+WORKDIR /app
+
+# Copy training requirements
+COPY requirements-training.txt .
+
+# Install PyTorch with CUDA support
+RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+# Install training dependencies
+RUN pip install -r requirements-training.txt
+
+# Copy training script and environment models
+COPY train_agent.py .
+COPY code_refactor_gym/models.py ./code_refactor_gym/
+
+# Create output directory
+RUN mkdir -p /app/output
+
+# Default command (can be overridden)
+CMD ["python", "train_agent.py", \
+     "--model-id", "Qwen/Qwen2.5-1.5B-Instruct", \
+     "--env-url", "https://mo35-code-refactor-gym.hf.space", \
+     "--output-dir", "/app/output/code-refactor-agent", \
+     "--num-epochs", "3", \
+     "--batch-size", "4", \
+     "--use-vllm"]

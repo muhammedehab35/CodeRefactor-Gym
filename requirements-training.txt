@@ -1,0 +1,19 @@
+# Training dependencies for CodeRefactor Gym GRPO
+trl>=0.12.0
+transformers>=4.46.0
+torch>=2.0.0
+datasets>=2.14.0
+accelerate>=0.21.0
+peft>=0.5.0
+bitsandbytes>=0.41.0
+openenv-core>=0.2.0
+
+# Optional: Unsloth for 2x faster training (70% less memory)
+# unsloth @ git+https://github.com/unslothai/unsloth.git
+
+# vLLM for faster inference
+vllm>=0.6.0
+
+# Monitoring and logging
+wandb>=0.15.0
+tensorboard>=2.14.0

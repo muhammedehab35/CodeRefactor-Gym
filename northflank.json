@@ -1,0 +1,63 @@
+{
+  "name": "code-refactor-training",
+  "description": "CodeRefactor Gym training with GRPO on H100 GPU",
+  "spec": {
+    "kind": "Job",
+    "apiVersion": "v1",
+    "name": "code-refactor-training",
+    "buildSettings": {
+      "dockerfile": {
+        "buildEngine": "kaniko",
+        "dockerFilePath": "Dockerfile.training",
+        "dockerWorkDir": "/"
+      }
+    },
+    "runtimeSettings": {
+      "resources": {
+        "gpu": {
+          "type": "H100",
+          "count": 1
+        },
+        "cpu": "8000m",
+        "memory": "32Gi",
+        "storage": "50Gi"
+      },
+      "replicas": 1,
+      "environmentVariables": {
+        "MODEL_ID": "Qwen/Qwen2.5-1.5B-Instruct",
+        "ENV_URL": "https://mo35-code-refactor-gym.hf.space",
+        "NUM_EPOCHS": "3",
+        "BATCH_SIZE": "4",
+        "NUM_GENERATIONS": "8",
+        "MAX_LENGTH": "1024",
+        "LEARNING_RATE": "5e-6",
+        "OUTPUT_DIR": "/app/output/code-refactor-agent",
+        "USE_VLLM": "true",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "ports": [
+        {
+          "name": "tensorboard",
+          "port": 6006,
+          "protocol": "HTTP"
+        }
+      ],
+      "healthChecks": {
+        "livenessProbe": {
+          "httpGet": {
+            "path": "/health",
+            "port": 8000
+          },
+          "initialDelaySeconds": 30,
+          "periodSeconds": 10
+        }
+      }
+    },
+    "vcsData": {
+      "projectUrl": "https://github.com/muhammedehab35/CodeRefactor-Gym",
+      "projectType": "github",
+      "accountLogin": "muhammedehab35",
+      "projectId": "CodeRefactor-Gym"
+    }
+  }
+}
